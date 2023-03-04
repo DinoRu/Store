@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% load static %}
+<!-- block content -->
+{% block content %}
+<!-- Get each product to display -->
+{% for product in products %}
+<div class="item">
+  <a href="/" class="img">
+    <img src="{{ product.image.url }}" alt="" />
+  </a>
+  <br />
+  <a href="/" class="product-title">{{ product.name }}</a>
+  <br />
+  {{ product.price }}
+</div>
+{% endfor %}
+<!-- separate-->
+{% endblock content %}
