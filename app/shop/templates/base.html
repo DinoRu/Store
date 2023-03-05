@@ -9,6 +9,20 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
+    <nav>
+      <ul>
+        <li><a href="{% url 'shop:home' %}">Home</a></li>
+        <li>
+          {% with total_items=cart|length %} {% if total_items > 0 %} Cart:
+          <a href="{% url 'cart:cart_detail' %}"
+            >{{ total_items }} item{{ total_items|pluralize }},
+            <!-- total price. -->
+            ${{ cart.get_total_price }}
+          </a>
+          {% else %} Your Cart is Empty {% endif %} {% endwith %}
+        </li>
+      </ul>
+    </nav>
     <!-- Block content -->
     {% block content %} {% endblock content %}
     <!-- End block -->

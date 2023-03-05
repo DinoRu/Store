@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+<!-- block content -->
+{% block content %}
+<h1>Cart</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Remove</th>
+      <th>Unity Price</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cart %} {% with product=item.product %}
+
+    <tr>
+      <td>
+        <img src="{{ product.image.url }}" alt="" />
+      </td>
+      <td>{{ product.name }}</td>
+      <td>
+        <form action="{% url 'cart:cart_add' product.id %}" method="post">
+          {{ item.update_quantity_form.quantity }}
+          <!-- override-->
+          {{ item.update_quantity_form.override }}
+          <input type="submit" value="Update" />
+          {% csrf_token %}
+        </form>
+      </td>
+      <td>
+        <form method="post" action="{% url 'cart:cart_remove' product.id %}">
+          {% csrf_token %}
+
+          <input type="submit" value="Remove" />
+        </form>
+      </td>
+      <td>${{item.price}}</td>
+      <td>${{item.total_price}}</td>
+    </tr>
+    {% endwith %} {% endfor %}
+    <tr>
+      <td>Total</td>
+      <td>{{ cart.get_total_price }}</td>
+    </tr>
+  </tbody>
+</table>
+<a href="{% url 'orders:order_create' %}">Checkout</a>
+
+<!-- end block -->
+{% endblock %}
